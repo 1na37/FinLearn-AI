@@ -556,33 +556,58 @@ def render_sidebar_stats(translations):
 
     if st.session_state.game_started and not st.session_state.game_finished:
         total_q = len(st.session_state.question_pool)
-        answered = len(st.session_state.history)
-
+        current_q = st.session_state.current_question_idx + 1
+        
+        # Calculate actual performance metrics
+        correct = st.session_state.correct_answers
+        wrong = st.session_state.wrong_answers
+        answered = correct + wrong
+        
         # Grouped metrics in 2 columns
         col1, col2 = st.sidebar.columns(2)
         with col1:
-            st.metric("❓ " + t['question_num'], f"{answered + 1}/{total_q}")
-            st.metric("✅ " + t['correct_ans'], st.session_state.correct_answers)
+            st.metric("❓ " + t['question_num'], f"{current_q}/{total_q}")
+            st.metric("✅ " + t['correct_ans'], correct)
         with col2:
-            st.metric("❌ " + t['wrong_ans'], st.session_state.wrong_answers)
+            st.metric("❌ " + t['wrong_ans'], wrong)
             st.metric("🔥 " + t['streak'], st.session_state.streak)
 
         # Accuracy with progress bar
         if answered > 0:
-            accuracy = (st.session_state.correct_answers / answered) * 100
+            accuracy = (correct / answered) * 100
             st.sidebar.metric("🎯 " + t['accuracy'], f"{accuracy:.1f}%")
             st.sidebar.progress(int(accuracy))
+        else:
+            st.sidebar.metric("🎯 " + t['accuracy'], "0%")
+            st.sidebar.progress(0)
 
         st.sidebar.markdown("---")
         restart = st.sidebar.button("🔄 Restart", use_container_width=True)
 
     elif st.session_state.game_finished:
         st.sidebar.markdown("### 🎉 Game Finished!")
+        
+        # Show final stats
+        total_q = len(st.session_state.question_pool)
+        correct = st.session_state.correct_answers
+        wrong = st.session_state.wrong_answers
+        
+        col1, col2 = st.sidebar.columns(2)
+        with col1:
+            st.metric("✅ " + t['correct_ans'], correct)
+            st.metric("❓ " + t['total_questions'], total_q)
+        with col2:
+            st.metric("❌ " + t['wrong_ans'], wrong)
+            if total_q > 0:
+                accuracy = (correct / total_q) * 100
+                st.metric("🎯 " + t['accuracy'], f"{accuracy:.1f}%")
+        
+        st.sidebar.metric("🔥 " + "Best Streak", st.session_state.best_streak)
+        
         st.sidebar.markdown("---")
         restart = st.sidebar.button("🔄 Restart", use_container_width=True)
 
     return restart
-
 
 
 def render_active_game(game_state, explainer, translations):
