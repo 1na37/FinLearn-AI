@@ -141,6 +141,7 @@ images/
 ├── ![Dashboard](images/dashboard.png)
 ├── ![AI Assistant](images/ai-assistant.png)
 ├── ![Finance Trivia](images/trivia-game.png)
+├── ![Stock Analysis](images/stock-analysis.png)
 ├── ![Calculator](images/calculator.png)
 └── ![Resources](images/resources.png)
 
@@ -317,6 +318,7 @@ images/
 ├── ![Dashboard](images/dashboard.png)
 ├── ![AI Assistant](images/ai-assistant.png)
 ├── ![Finance Trivia](images/trivia-game.png)
+├── ![Stock Analysis](images/stock-analysis.png)
 ├── ![Calculator](images/calculator.png)
 └── ![Resources](images/resources.png)
 
