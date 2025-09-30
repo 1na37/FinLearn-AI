@@ -203,11 +203,11 @@ if "language" not in st.session_state:
 with st.sidebar:
     st.header("⚙️ Konfigurasi Asisten Keuangan")
 
-    # API status
-   if "OPENROUTER_API_KEY" in st.secrets:
-    st.success("✅ API Key: Configured")
-else:
-    st.error("❌ API Key: Missing")
+    # API status - FIXED: Proper indentation
+    if "OPENROUTER_API_KEY" in st.secrets:
+        st.success("✅ API Key: Configured")
+    else:
+        st.error("❌ API Key: Missing")
 
     selected_assistant_name = st.selectbox("Pilih Asisten:", options=list(assistants.keys()))
 
