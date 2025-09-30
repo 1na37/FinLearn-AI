@@ -137,13 +137,26 @@ class ExplanationGenerator:  # Dynamic feedback system
 
 ## 📸 Application Preview
 
-images/
-├── ![Dashboard](images/dashboard.png)
-├── ![AI Assistant](images/ai-assistant.png)
-├── ![Finance Trivia](images/trivia-game.png)
-├── ![Stock Analysis](images/stock-analysis.png)
-├── ![Calculator](images/calculator.png)
-└── ![Resources](images/resources.png)
+## **📸 Preview Aplikasi**
+
+### 🖥️ Dashboard
+![Dashboard](images/dashboard.png)
+
+### 🤖 AI Assistant
+![AI Assistant](images/ai-assistant.png)
+
+### 🎯 Finance Trivia
+![Finance Trivia](images/trivia-game.png)
+
+### 📈 Stock Analysis
+![Stock Analysis](images/stock-analysis.png)
+
+### 🧮 Calculator
+![Calculator](images/calculator.png)
+
+### 📚 Resources
+![Resources](images/resources.png)
+
 
 
 
