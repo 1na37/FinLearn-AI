@@ -1,4 +1,3 @@
-# financial_calculators.py
 import yfinance as yf
 import streamlit as st
 from datetime import datetime, timedelta
@@ -8,6 +7,52 @@ import requests
 import numpy as np
 import pandas as pd
 from dateutil.relativedelta import relativedelta
+import time
+
+# =============================================================================
+# RATE LIMITING AND CACHING
+# =============================================================================
+
+# Global variables for rate limiting
+last_request_time = 0
+REQUEST_DELAY = 2  # seconds between requests
+
+def rate_limited_request():
+    """Ensure we don't make requests too frequently"""
+    global last_request_time
+    current_time = time.time()
+    time_since_last = current_time - last_request_time
+    
+    if time_since_last < REQUEST_DELAY:
+        time.sleep(REQUEST_DELAY - time_since_last)
+    
+    last_request_time = time.time()
+
+@st.cache_data(ttl=300)  # Cache for 5 minutes
+def cached_fetch_stock_data(ticker, period):
+    """Cached version of stock data fetching"""
+    try:
+        rate_limited_request()  # Add rate limiting
+        stock = yf.Ticker(ticker)
+        info = stock.info
+        hist = stock.history(period=period)
+        
+        if hist.empty:
+            return None
+            
+        return hist, info
+            
+    except Exception as e:
+        if "Too Many Requests" in str(e):
+            st.error("🚫 Rate limit exceeded. Please wait 1-2 minutes.")
+        else:
+            st.error(f"Error fetching data: {str(e)}")
+        return None
+
+@st.cache_data(ttl=600)  # Cache exchange rates for 10 minutes
+def cached_get_exchange_rate(base_currency, target_currency):
+    """Cached version of exchange rate fetching"""
+    return get_exchange_rate_impl(base_currency, target_currency)
 
 # =============================================================================
 # MAIN APP FUNCTION
@@ -82,6 +127,12 @@ def show_stock_analysis():
     """Display the stock analysis calculator with real-time data"""
     st.header("📊 Real-time Stock Analysis & Technical Indicators")
     
+    # Add warning about rate limits
+    st.warning("""
+    ⚠️ **Note:** Stock data is rate-limited. If you see errors, please wait a few moments before trying again.
+    Data is cached for 5 minutes to reduce API calls.
+    """)
+    
     col1, col2 = st.columns([1, 2])
     
     with col1:
@@ -94,7 +145,12 @@ def show_stock_analysis():
 def get_stock_inputs():
     """Get user inputs for stock analysis"""
     st.subheader("Stock Search")
-    ticker = st.text_input("Enter stock symbol (e.g., AAPL, TSLA, GOOGL):", "AAPL").upper()
+    
+    # Initialize session state for stock selection
+    if 'selected_stock' not in st.session_state:
+        st.session_state.selected_stock = "AAPL"
+    
+    ticker = st.text_input("Enter stock symbol (e.g., AAPL, TSLA, GOOGL):", st.session_state.selected_stock).upper()
     
     period = st.selectbox(
         "Time Period:",
@@ -125,17 +181,20 @@ def display_quick_stock_buttons():
     st.markdown("**💡 Popular Stocks:**")
     popular_stocks = ["AAPL", "TSLA", "GOOGL", "MSFT", "AMZN", "NVDA", "META", "BRK-B"]
     cols = st.columns(4)
+    
     for idx, stock in enumerate(popular_stocks):
         with cols[idx % 4]:
-            if st.button(stock):
+            if st.button(stock, key=f"stock_{stock}"):
                 st.session_state.selected_stock = stock
                 st.rerun()
 
 def analyze_and_display_stock(ticker, period, indicators):
     """Main function to analyze and display stock data"""
     try:
-        stock_data = fetch_stock_data(ticker, period)
+        # Use cached function with rate limiting
+        stock_data = cached_fetch_stock_data(ticker, period)
         if not stock_data:
+            st.error(f"Unable to fetch data for {ticker}. Please try again in a few moments.")
             return
             
         hist, info = stock_data
@@ -156,25 +215,11 @@ def analyze_and_display_stock(ticker, period, indicators):
         display_company_details(info)
         
     except Exception as e:
-        st.error(f"Error analyzing {ticker}: {str(e)}")
-
-def fetch_stock_data(ticker, period):
-    """Fetch stock data from Yahoo Finance"""
-    try:
-        with st.spinner(f"Fetching data for {ticker}..."):
-            stock = yf.Ticker(ticker)
-            info = stock.info
-            hist = stock.history(period=period)
-            
-            if hist.empty:
-                st.error(f"No data found for symbol: {ticker}")
-                return None
-                
-            return hist, info
-            
-    except Exception as e:
-        st.error(f"Error fetching data: {str(e)}")
-        return None
+        if "Too Many Requests" in str(e):
+            st.error("🚫 Rate limit exceeded. Please wait 1-2 minutes before making another request.")
+            st.info("💡 Tip: Use the cached data for popular stocks, or try again shortly.")
+        else:
+            st.error(f"Error analyzing {ticker}: {str(e)}")
 
 def display_stock_overview(ticker, info, hist):
     """Display stock overview and key metrics"""
@@ -727,8 +772,14 @@ def convert_currency(amount, base_currency, target_currency):
             st.error("Unable to fetch exchange rate. Please try again later.")
 
 def get_exchange_rate(base_currency, target_currency):
-    """Get exchange rate from API with fallback"""
+    """Get exchange rate from API with fallback (uses cached version)"""
+    return cached_get_exchange_rate(base_currency, target_currency)
+
+def get_exchange_rate_impl(base_currency, target_currency):
+    """Actual implementation of exchange rate fetching"""
     try:
+        rate_limited_request()  # Add rate limiting
+        
         # Try multiple free API endpoints
         apis = [
             f"https://api.exchangerate-api.com/v4/latest/{base_currency}",
@@ -737,10 +788,12 @@ def get_exchange_rate(base_currency, target_currency):
         
         for api_url in apis:
             try:
-                response = requests.get(api_url, timeout=5)
+                response = requests.get(api_url, timeout=10)
                 if response.status_code == 200:
                     data = response.json()
-                    return data['rates'].get(target_currency, None)
+                    rate = data['rates'].get(target_currency, None)
+                    if rate:
+                        return rate
             except:
                 continue
         
