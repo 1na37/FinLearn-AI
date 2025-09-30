@@ -875,6 +875,10 @@ def main():
     
     load_custom_css()
     
+    # Initialize language if not exists
+    if 'language' not in st.session_state:
+        st.session_state.language = 'en'
+    
     game_state = GameState()
     question_bank = QuestionBank()
     explainer = ExplanationGenerator()
