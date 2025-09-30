@@ -137,13 +137,17 @@ class ExplanationGenerator:  # Dynamic feedback system
 
 ## 📸 Application Preview
 
-| Home Dashboard | AI Assistant | Finance Trivia |
-|----------------|--------------|----------------|
-| ![Dashboard](https://via.placeholder.com/300x200/667eea/FFFFFF?text=Dashboard) | ![AI Chat](https://via.placeholder.com/300x200/28a745/FFFFFF?text=AI+Assistant) | ![Quiz](https://via.placeholder.com/300x200/ffc107/FFFFFF?text=Finance+Trivia) |
+images/
+├── ![Dashboard](images/dashboard.png)
+├── ![AI Assistant](images/ai-assistant.png)
+├── ![Finance Trivia](images/trivia-game.png)
+├── ![Calculator](images/calculator.png)
+└── ![Resources](images/resources.png)
 
-| Stock Analysis | Investment Calc | Learning Resources |
-|----------------|-----------------|-------------------|
-| ![Stocks](https://via.placeholder.com/300x200/dc3545/FFFFFF?text=Stock+Analysis) | ![Invest](https://via.placeholder.com/300x200/6f42c1/FFFFFF?text=Investment+Calc) | ![Learn](https://via.placeholder.com/300x200/20c997/FFFFFF?text=Resources) |
+
+
+
+
 
 ## ❓ Frequently Asked Questions
 
@@ -309,13 +313,13 @@ class ExplanationGenerator:  # Sistem feedback dinamis
 
 ## 📸 Preview Aplikasi
 
-| Dashboard Utama | Asisten AI | Finance Trivia |
-|----------------|--------------|----------------|
-| ![Dashboard](https://via.placeholder.com/300x200/667eea/FFFFFF?text=Dashboard) | ![AI Chat](https://via.placeholder.com/300x200/28a745/FFFFFF?text=Asisten+AI) | ![Kuis](https://via.placeholder.com/300x200/ffc107/FFFFFF?text=Finance+Trivia) |
+images/
+├── ![Dashboard](images/dashboard.png)
+├── ![AI Assistant](images/ai-assistant.png)
+├── ![Finance Trivia](images/trivia-game.png)
+├── ![Calculator](images/calculator.png)
+└── ![Resources](images/resources.png)
 
-| Analisis Saham | Kalkulator Investasi | Sumber Belajar |
-|----------------|-----------------|-------------------|
-| ![Saham](https://via.placeholder.com/300x200/dc3545/FFFFFF?text=Analisis+Saham) | ![Investasi](https://via.placeholder.com/300x200/6f42c1/FFFFFF?text=Kalkulator+Invest) | ![Belajar](https://via.placeholder.com/300x200/20c997/FFFFFF?text=Sumber+Belajar) |
 
 ## ❓ Pertanyaan Umum
 
