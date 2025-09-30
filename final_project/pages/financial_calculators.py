@@ -429,7 +429,7 @@ def display_company_details(info):
         """)
 
 # =============================================================================
-# INVESTMENT CALCULATOR FUNCTIONS
+# INVESTMENT CALCULATOR FUNCTIONS - FIXED VERSION
 # =============================================================================
 
 def show_investment_calculator():
@@ -468,72 +468,104 @@ def get_investment_inputs():
         tax_rate = st.slider("Estimated Tax Rate on Gains (%)", min_value=0.0, max_value=50.0, value=15.0, step=1.0)
     
     return {
-        'initial_investment': initial_investment,
-        'monthly_contribution': monthly_contribution,
-        'years': years,
+        'initial_investment': float(initial_investment),
+        'monthly_contribution': float(monthly_contribution),
+        'years': int(years),
         'investment_type': investment_type,
-        'expected_return': expected_return,
-        'inflation': inflation,
-        'contribution_increase': contribution_increase,
-        'tax_rate': tax_rate
+        'expected_return': float(expected_return),
+        'inflation': float(inflation),
+        'contribution_increase': float(contribution_increase),
+        'tax_rate': float(tax_rate)
     }
 
 def calculate_and_display_investment_results(params):
     """Calculate and display investment results with visualizations"""
-    with st.spinner("Calculating your financial future..."):
-        # Perform calculations
-        results = calculate_advanced_investment(**params)
-        
-        # Display results
-        display_investment_results(results)
-        display_risk_analysis(params)
-        display_investment_visualizations(results, params)
+    try:
+        with st.spinner("Calculating your financial future..."):
+            # Perform calculations
+            results = calculate_advanced_investment(**params)
+            
+            if results and 'future_value' in results:
+                # Display results
+                display_investment_results(results)
+                display_risk_analysis(params)
+                display_investment_visualizations(results, params)
+            else:
+                st.error("Unable to calculate investment results. Please check your inputs.")
+    
+    except Exception as e:
+        st.error(f"Error calculating investment results: {str(e)}")
+        st.info("Please check that all input values are valid numbers.")
 
 def calculate_advanced_investment(initial_investment, monthly_contribution, years,
-                                expected_return, inflation, contribution_increase, tax_rate):
+                                expected_return, inflation, contribution_increase, tax_rate, **kwargs):
     """Calculate advanced investment scenario with taxes and inflation"""
-    monthly_rate = expected_return / 100 / 12
-    months = years * 12
-    
-    # Calculate future value with compounding
-    future_value = initial_investment
-    total_contributions = initial_investment
-    current_monthly = monthly_contribution
-    
-    projection_data = []
-    
-    for year in range(1, years + 1):
-        # Add monthly contributions for the year
-        for month in range(12):
-            future_value += current_monthly
-            future_value *= (1 + monthly_rate)
-            total_contributions += current_monthly
+    try:
+        # Convert all inputs to float to ensure numerical operations
+        initial_investment = float(initial_investment)
+        monthly_contribution = float(monthly_contribution)
+        years = int(years)
+        expected_return = float(expected_return)
+        inflation = float(inflation)
+        contribution_increase = float(contribution_increase)
+        tax_rate = float(tax_rate)
         
-        projection_data.append({
-            'Year': year,
-            'Portfolio Value': future_value,
-            'Contributions': total_contributions
-        })
+        monthly_rate = expected_return / 100 / 12
+        months = years * 12
         
-        # Increase monthly contribution for next year
-        current_monthly *= (1 + contribution_increase / 100)
+        # Calculate future value with compounding
+        future_value = initial_investment
+        total_contributions = initial_investment
+        current_monthly = monthly_contribution
+        
+        projection_data = []
+        
+        for year in range(1, years + 1):
+            # Add monthly contributions for the year
+            for month in range(12):
+                future_value += current_monthly
+                future_value *= (1 + monthly_rate)
+                total_contributions += current_monthly
+            
+            projection_data.append({
+                'Year': year,
+                'Portfolio Value': float(future_value),
+                'Contributions': float(total_contributions)
+            })
+            
+            # Increase monthly contribution for next year
+            current_monthly *= (1 + contribution_increase / 100)
+        
+        # Calculate taxes and inflation adjustments
+        interest_earned = future_value - total_contributions
+        taxes_paid = interest_earned * (tax_rate / 100)
+        after_tax = future_value - taxes_paid
+        real_value = after_tax / ((1 + inflation/100) ** years)
+        
+        return {
+            'future_value': float(future_value),
+            'real_value': float(real_value),
+            'after_tax': float(after_tax),
+            'interest_earned': float(interest_earned),
+            'taxes_paid': float(taxes_paid),
+            'initial_investment': float(initial_investment),
+            'total_contributions': float(total_contributions),
+            'projection_data': pd.DataFrame(projection_data)
+        }
     
-    # Calculate taxes and inflation adjustments
-    interest_earned = future_value - total_contributions
-    taxes_paid = interest_earned * (tax_rate / 100)
-    after_tax = future_value - taxes_paid
-    real_value = after_tax / (1 + inflation/100) ** years
-    
-    return {
-        'future_value': future_value,
-        'real_value': real_value,
-        'after_tax': after_tax,
-        'interest_earned': interest_earned,
-        'taxes_paid': taxes_paid,
-        'initial_investment': initial_investment,
-        'total_contributions': total_contributions,
-        'projection_data': pd.DataFrame(projection_data)
-    }
+    except Exception as e:
+        st.error(f"Error in investment calculation: {str(e)}")
+        # Return default values in case of error
+        return {
+            'future_value': 0.0,
+            'real_value': 0.0,
+            'after_tax': 0.0,
+            'interest_earned': 0.0,
+            'taxes_paid': 0.0,
+            'initial_investment': float(initial_investment),
+            'total_contributions': float(initial_investment),
+            'projection_data': pd.DataFrame()
+        }
 
 def display_investment_results(results):
     """Display the main investment results"""
@@ -653,25 +685,31 @@ def display_investment_visualizations(results, params):
         params['years'], 
         params['expected_return']
     )
-    display_monte_carlo_chart(monte_carlo_paths, params['years'])
+    if monte_carlo_paths:
+        display_monte_carlo_chart(monte_carlo_paths, params['years'])
 
 def run_monte_carlo_simulation(initial, annual_contribution, years, expected_return, simulations=100):
     """Run Monte Carlo simulation for investment returns"""
-    results = []
-    
-    for _ in range(simulations):
-        portfolio_value = initial
-        path = [portfolio_value]
+    try:
+        results = []
         
-        for year in range(years):
-            # Random return based on expected return with some volatility
-            annual_return = np.random.normal(expected_return, expected_return * 0.3) / 100
-            portfolio_value = portfolio_value * (1 + annual_return) + annual_contribution
-            path.append(portfolio_value)
+        for _ in range(simulations):
+            portfolio_value = float(initial)
+            path = [portfolio_value]
+            
+            for year in range(years):
+                # Random return based on expected return with some volatility
+                annual_return = np.random.normal(expected_return, max(expected_return * 0.3, 5)) / 100
+                portfolio_value = portfolio_value * (1 + annual_return) + annual_contribution
+                path.append(max(portfolio_value, 0))  # Ensure non-negative
+            
+            results.append(path)
         
-        results.append(path)
+        return results
     
-    return results
+    except Exception as e:
+        st.error(f"Error in Monte Carlo simulation: {str(e)}")
+        return []
 
 def display_monte_carlo_chart(monte_carlo_paths, years):
     """Display Monte Carlo simulation chart"""
