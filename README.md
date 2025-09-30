@@ -136,32 +136,13 @@ class ExplanationGenerator:  # Dynamic feedback system
 4. Deploy automatically on push
 
 ## 📸 Application Preview
+| 🖥️ Dashboard | 🤖 AI Assistant | 🎯 Finance Trivia |
+|--------------|----------------|------------------|
+| ![Dashboard](dashboard.png) | ![AI Assistant](ai-assistant.png) | ![Finance Trivia](trivia-game.png) |
 
-## **📸 Preview Aplikasi**
-
-### 🖥️ Dashboard
-![Dashboard](images/dashboard.png)
-
-### 🤖 AI Assistant
-![AI Assistant](images/ai-assistant.png)
-
-### 🎯 Finance Trivia
-![Finance Trivia](images/trivia-game.png)
-
-### 📈 Stock Analysis
-![Stock Analysis](images/stock-analysis.png)
-
-### 🧮 Calculator
-![Calculator](images/calculator.png)
-
-### 📚 Resources
-![Resources](images/resources.png)
-
-
-
-
-
-
+| 📈 Stock Analysis | 🧮 Calculator | 📚 Resources |
+|------------------|--------------|--------------|
+| ![Stock Analysis](stock-analysis.png) | ![Calculator](calculator.png) | ![Resources](resources.png) | 
 
 ## ❓ Frequently Asked Questions
 
@@ -327,14 +308,13 @@ class ExplanationGenerator:  # Sistem feedback dinamis
 
 ## 📸 Preview Aplikasi
 
-images/
-├── ![Dashboard](images/dashboard.png)
-├── ![AI Assistant](images/ai-assistant.png)
-├── ![Finance Trivia](images/trivia-game.png)
-├── ![Stock Analysis](images/stock-analysis.png)
-├── ![Calculator](images/calculator.png)
-└── ![Resources](images/resources.png)
+| 🖥️ Dashboard | 🤖 AI Assistant | 🎯 Finance Trivia |
+|--------------|----------------|------------------|
+| ![Dashboard](dashboard.png) | ![AI Assistant](ai-assistant.png) | ![Finance Trivia](trivia-game.png) |
 
+| 📈 Stock Analysis | 🧮 Calculator | 📚 Resources |
+|------------------|--------------|--------------|
+| ![Stock Analysis](stock-analysis.png) | ![Calculator](calculator.png) | ![Resources](resources.png) | 
 
 ## ❓ Pertanyaan Umum
 
