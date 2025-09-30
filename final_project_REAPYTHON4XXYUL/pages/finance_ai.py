@@ -221,7 +221,7 @@ with st.sidebar:
 
     # Language options
     st.session_state.language = st.selectbox("Language / Bahasa:", options=[
-        "Auto (match input)", "English", "Bahasa Indonesia", "Bahasa Melayu", "中文", "Español"
+        "Auto (match input)", "English", "Bahasa Indonesia"
     ], index=0)
 
     # Show model status
