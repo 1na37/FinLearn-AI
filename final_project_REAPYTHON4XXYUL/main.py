@@ -35,8 +35,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Feature cards
-col1, col2, col3, col4 = st.columns(3)
+# Feature cards - FIXED: Changed to 4 columns
+col1, col2, col3, col4 = st.columns(4)  # Changed from 3 to 4
 
 with col1:
     st.markdown("""
