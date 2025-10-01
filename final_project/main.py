@@ -1,46 +1,29 @@
 import streamlit as st
 import time
 
-# ==============================================================================
-# 🌟 PYTHON NAVIGATION TRICK 🌟
-# This function is necessary to redirect the user to a specific page
-# in a Streamlit multi-page app structure without using the sidebar.
-# It uses a Streamlit component (st.components.v1.html) to inject a tiny
-# JavaScript snippet that changes the browser's URL path.
-# ==============================================================================
+# Function to simulate multi-page navigation using JavaScript injection
 def navigate_to(page_name):
-    """
-    Simulates navigation to a different page in a Streamlit multi-page app.
-    The page_name must match the filename in your 'pages/' folder (e.g., 'finance_trivia').
-    """
-    # Create the expected URL path for the page file (e.g., /finance_trivia)
     path = f"/{page_name.lower().replace(' ', '_')}"
-    
-    # Use a hidden Streamlit HTML component to change the browser URL
     st.components.v1.html(
         f"""
         <script>
             window.parent.location.pathname = "{path}";
         </script>
         """,
-        height=0, # Make the component invisible
+        height=0,
         width=0
     )
 
-    
-# ==============================================================================
-# 1. PAGE CONFIG & CUSTOM CSS
-# ==============================================================================
+# --- PAGE CONFIG & CUSTOM CSS ---
 
 st.set_page_config(
     page_title="Finance Learning Hub",
     page_icon="💰",
     layout="wide",
-    # Set sidebar to collapsed initially since we're promoting column navigation
     initial_sidebar_state="collapsed" 
 )
 
-# Custom CSS
+# Custom CSS for header and clickable cards
 st.markdown("""
 <style>
     .main-header {
@@ -52,30 +35,27 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
         margin-bottom: 2rem;
     }
-    /* Style to hide the default button look, making the card the focus */
+    /* Hide default button look to make the card clickable */
     div.stButton > button {
-        visibility: hidden; /* Hide the actual button */
-        height: 100%; /* Force it to take up space */
-        position: absolute; /* Allows overlay */
+        visibility: hidden; 
+        height: 100%; 
+        position: absolute; 
         top: 0;
         left: 0;
         width: 100%;
         cursor: pointer;
     }
-    /* Style the container that holds the card and the invisible button */
     .clickable-card {
-        position: relative; /* Needed for absolute positioning of the button */
+        position: relative; 
         border-radius: 15px; 
-        overflow: hidden; /* Keep button inside */
-        margin-bottom: 2rem; /* Spacing between rows */
+        overflow: hidden; 
+        margin-bottom: 2rem; 
     }
 </style>
 """, unsafe_allow_html=True)
 
 
-# ==============================================================================
-# 2. HEADER & INTRO
-# ==============================================================================
+# --- HEADER & INTRO ---
 
 st.markdown('<h1 class="main-header">💰 Finance Learning Hub</h1>', unsafe_allow_html=True)
 
@@ -89,18 +69,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ==============================================================================
-# 3. CLICKABLE FEATURE CARDS 
-# ==============================================================================
+# --- CLICKABLE FEATURE CARDS ---
 
-# Note: The navigation function (navigate_to) is called when the invisible button is clicked.
-# We use a button with use_container_width=True to cover the column area
-#if st.button("Go to Trivia", key="go_trivia", use_container_width=True):
-# 🚨 IMPORTANT: 'finance_trivia' must match the filename in your pages/ folder (e.g., pages/finance_trivia.py)
-#navigate_to("finance_trivia") 
-#st.markdown('</div>', unsafe_allow_html=True) # Close the clickable-card container
-    
-# Create four columns for the cards
 col1, col2, col3, col4 = st.columns(4)
 
 # Card 1: Finance Trivia
@@ -160,9 +130,7 @@ with col4:
     st.markdown('</div>', unsafe_allow_html=True)
 
 
-# ==============================================================================
-# 4. NAVIGATION INFO & FOOTER (Optional/Can be removed)
-# ==============================================================================
+# --- NAVIGATION INFO & FOOTER ---
 
 st.markdown("---")
 st.markdown("""
@@ -176,10 +144,6 @@ The **cards above** will take you directly to the sections. You can also use the
 
 st.markdown("---")
 st.markdown("""
-<div style="text-align: center; color: #666; padding: 2rem 0;">
-    <p>Built with Streamlit | Multipage App</p>
-</div>
-""", unsafe_allow_html=True)
 <div style="text-align: center; color: #666; padding: 2rem 0;">
     <p>Built with Streamlit | Multipage App</p>
 </div>
