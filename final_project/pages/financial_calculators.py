@@ -94,6 +94,7 @@ def setup_page_config():
         layout="wide"
     )
 
+
 def load_custom_css():
     """Load custom CSS styles for the app"""
     st.markdown("""
@@ -105,15 +106,17 @@ def load_custom_css():
         color: white;
         text-align: center;
         margin: 0.5rem 0;
-.calculator-box {
-    background: #f8f9fa;
-    padding: 2rem;
-    border-radius: 15px;
-    border-left: 5px solid #667eea;
-    margin: 1rem 0;
-    color: #000000;
-    font-weight: 600;
-}
+     }   
+    .calculator-box {
+        background: #f0f8ff;  /* Light blue background */
+        padding: 2rem;
+        border-radius: 15px;
+        border-left: 5px solid #667eea;
+        margin: 1rem 0;
+        color: #1a365d;  /* Dark blue text */
+        font-weight: 500;
+        border: 1px solid #c3dafe;
+    }
     .risk-high { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important; }
     .risk-medium { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%) !important; }
     .risk-low { background: linear-gradient(135deg, #28a745 0%, #218838 100%) !important; }
