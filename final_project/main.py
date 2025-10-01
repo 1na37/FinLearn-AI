@@ -27,9 +27,15 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        /* ... existing styles ... */
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 2rem;
     }
-    /* --- FIX: Force the button container to stretch --- */
+    /* FIX: Force the hidden button container to stretch and overlap the card */
     div.stButton {
         height: 100% !important; /* Force container height */
         margin-top: -100%; /* Pull the button container up to overlap the card */
@@ -74,7 +80,7 @@ st.markdown("""
 
 col1, col2, col3, col4 = st.columns(4)
 
-# Card 1: Finance Trivia
+# Card 1: Finance Trivia (Purple)
 with col1:
     st.markdown('<div class="clickable-card">', unsafe_allow_html=True)
     st.markdown("""
@@ -85,10 +91,10 @@ with col1:
     </div>
     """, unsafe_allow_html=True)
     if st.button("Go to Trivia", key="go_trivia", use_container_width=True):
-        navigate_to("finance_trivia") # Maps to pages/finance_trivia.py
+        navigate_to("finance_trivia")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Card 2: Finance AI
+# Card 2: Finance AI (Green)
 with col2:
     st.markdown('<div class="clickable-card">', unsafe_allow_html=True)
     st.markdown("""
@@ -99,10 +105,10 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
     if st.button("Go to AI Chat", key="go_ai", use_container_width=True):
-        navigate_to("finance_ai") # Maps to pages/finance_ai.py
+        navigate_to("finance_ai")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Card 3: Resources
+# Card 3: Resources (Orange/Red)
 with col3:
     st.markdown('<div class="clickable-card">', unsafe_allow_html=True)
     st.markdown("""
@@ -113,7 +119,7 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
     if st.button("Go to Resources", key="go_resources", use_container_width=True):
-        navigate_to("learning_materials") # Maps to pages/learning_materials.py
+        navigate_to("learning_materials")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Card 4: Financial Calculators (Deep Teal)
@@ -127,7 +133,7 @@ with col4:
     </div>
     """, unsafe_allow_html=True)
     if st.button("Go to Calculators", key="go_calc", use_container_width=True):
-        navigate_to("financial_calculators") # Maps to pages/financial_calculators.py
+        navigate_to("financial_calculators")
     st.markdown('</div>', unsafe_allow_html=True)
 
 
