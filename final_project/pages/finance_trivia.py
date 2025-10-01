@@ -348,10 +348,19 @@ class QuestionBank: #"""Manages the question database for different languages an
         return random.choice(questions)
 
     def get_shuffled_questions(self, lang, diff):
-        """Get shuffled list of questions for specified language and difficulty"""
-        questions = self.questions[lang][diff].copy()  # Make a copy to avoid modifying original
-        random.shuffle(questions)  # Shuffle the questions
-        return questions
+    """Get shuffled list of questions for specified language and difficulty"""
+    questions = self.questions[lang][diff].copy()
+    random.shuffle(questions)
+    
+    for question in questions:
+        options = question['options']
+        correct_answer = options[question['correct']]
+        options_with_correctness = [(opt, opt == correct_answer) for opt in options]
+        random.shuffle(options_with_correctness)
+        
+        question['options'] = [opt for opt, _ in options_with_correctness]
+        question['correct'] = next(i for i, (_, is_correct) in enumerate(options_with_correctness) if is_correct)
+    return questions
     
 class ExplanationGenerator:
     """Generates explanations for quiz answers"""
