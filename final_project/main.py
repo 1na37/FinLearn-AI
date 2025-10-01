@@ -23,19 +23,19 @@ st.set_page_config(
     initial_sidebar_state="collapsed" 
 )
 
-# Custom CSS for header and clickable cards
+# Custom CSS
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        text-align: center;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 2rem;
+        /* ... existing styles ... */
     }
-    /* Hide default button look to make the card clickable */
+    /* --- FIX: Force the button container to stretch --- */
+    div.stButton {
+        height: 100% !important; /* Force container height */
+        margin-top: -100%; /* Pull the button container up to overlap the card */
+        z-index: 99; /* Ensure it's on top of the card markdown */
+    }
+    /* Style to hide the default button look, making the card the focus */
     div.stButton > button {
         visibility: hidden; 
         height: 100%; 
@@ -45,6 +45,7 @@ st.markdown("""
         width: 100%;
         cursor: pointer;
     }
+    /* Style the container that holds the card and the invisible button */
     .clickable-card {
         position: relative; 
         border-radius: 15px; 
