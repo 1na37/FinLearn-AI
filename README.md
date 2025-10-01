@@ -1,4 +1,3 @@
-
 # 💰 Finance Learning Hub
 
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B?logo=streamlit)](https://streamlit.io/)
@@ -361,4 +360,3 @@ Proyek ini mendemonstrasikan **pemrograman Python tingkat lanjut** melalui:
 <div align="center">
 
 ### 🌟 If you find this project helpful, please give it a star!
-Now users can easily switch between languages and the README looks much more professional! 🚀
