@@ -1,103 +1,80 @@
 import streamlit as st
-import time
-
 
 # Page configuration - ONLY in main app
-
 st.set_page_config(
-    page_title="Finance Learning Hub",
-    page_icon="💰",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="Finance Learning Hub",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-
-
 # Custom CSS
-
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: bold;
-        text-align: center;
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 2rem;
-    }
+    .main-header {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 2rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-
-
 # Main homepage content
-
 st.markdown('<h1 class="main-header">💰 Finance Learning Hub</h1>', unsafe_allow_html=True)
+
 st.markdown("""
 <div style="text-align: center; padding: 2rem;">
-    <h2>Welcome to Your Financial Education Platform! 🚀</h2>
-    <p style="font-size: 1.2rem; color: #666;">
-        Choose from our interactive learning tools below:
-    </p>
+    <h2>Welcome to Your Financial Education Platform! 🚀</h2>
+    <p style="font-size: 1.2rem; color: #666;">
+        Choose from our interactive learning tools below:
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
+# Feature cards - FIXED: Changed to 4 columns
+col1, col2, col3, col4 = st.columns(4)  # Changed from 3 to 4
 
-
-# Feature cards 
-
-col1, col2, col3, col4 = st.columns(4)  # Changed from 3 to 4
 with col1:
-
-    st.markdown("""
-    <div style="padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                border-radius: 15px; color: white; text-align: center;">
-        <h3>🎯 Finance Trivia</h3>
-        <p>Test your financial knowledge with interactive quizzes</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-
+    st.markdown("""
+    <div style="padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                border-radius: 15px; color: white; text-align: center;">
+        <h3>🎯 Finance Trivia</h3>
+        <p>Test your financial knowledge with interactive quizzes</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
-
-    st.markdown("""
-    <div style="padding: 2rem; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); 
-                border-radius: 15px; color: white; text-align: center;">
-        <h3>📊 Finance AI</h3>
-        <p>Ask your questions here</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-
+    st.markdown("""
+    <div style="padding: 2rem; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); 
+                border-radius: 15px; color: white; text-align: center;">
+        <h3>📊 Finance AI</h3>
+        <p>Ask your questions here</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col3:
-
-    st.markdown("""
-    <div style="padding: 2rem; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); 
-                border-radius: 15px; color: white; text-align: center;">
-        <h3>📚 Resources</h3>
-        <p>Explore financial learning materials</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-
+    st.markdown("""
+    <div style="padding: 2rem; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); 
+                border-radius: 15px; color: white; text-align: center;">
+        <h3>📚 Resources</h3>
+        <p>Explore financial learning materials</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col4:
-
-    st.markdown("""
-    <div style="padding: 2rem; background: linear-gradient(135deg, #0081A7 0%, #00B1CC 100%); 
+    st.markdown("""
+    <div style="padding: 2rem;  background: linear-gradient(135deg, #0081A7 0%, #00B1CC 100%); 
                  border-radius: 15px; color: white; text-align: center; height: 100%;">
         <h3>🧮 Financial Calculators</h3>
-        <p>Use tools for financial calculations</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-
+        <p>Use tools for financial calculations</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Navigation instructions
-
 st.markdown("---")
 st.markdown("""
 ### 🧭 How to Navigate
@@ -107,13 +84,10 @@ Use the sidebar on the left to switch between different sections of the app:
 - **Resources** - Financial learning materials 2025
 - **Financial calculators** - Tools for financial calculations [stock analysis, investment, currency converter, mortgage calculator]""")
 
-
-
 # Footer
-
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 2rem 0;">
-    <p>Built with Streamlit | Multipage App</p>
+    <p>Built with Streamlit | Multipage App</p>
 </div>
 """, unsafe_allow_html=True)
