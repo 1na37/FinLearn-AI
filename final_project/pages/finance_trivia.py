@@ -342,32 +342,28 @@ class QuestionBank: #"""Manages the question database for different languages an
             }
         }
     
-def get_random_question(self, lang, diff):
+    def get_random_question(self, lang, diff):
         """Get a random question for specified language and difficulty"""
         questions = self.questions[lang][diff]
         return random.choice(questions)
 
     def get_shuffled_questions(self, lang, diff):
-        """Get shuffled list of questions for specified language and difficulty"""
-        questions = self.questions[lang][diff].copy()  # Make a copy to avoid modifying original
-        random.shuffle(questions)
+    """Get shuffled list of questions for specified language and difficulty"""
+    questions = self.questions[lang][diff].copy()
+    random.shuffle(questions)
+    
+    # Randomize answer positions so correct answer isn't always A or B
+    for question in questions:
+        options = question['options']
+        correct_answer = options[question['correct']]
         
-        # Randomize answer positions so correct answer isn't always A or B
-        # Shuffle options within each question to randomize correct answer position
-        for question in questions:
-            options = question['options']  # Get the list of answer options
-            correct_answer = options[question['correct']]  # Store the text of the correct answer before shuffling
-            
-            # Create list of (option_text, is_correct) tuples to track which option is correct
-            options_with_correctness = [(opt, opt == correct_answer) for opt in options]
-            random.shuffle(options_with_correctness)
-            
-            # Update question with shuffled options and find the new position of correct answer
-            question['options'] = [opt for opt, _ in options_with_correctness] 
-            question['correct'] = next(i for i, (_, is_correct) in enumerate(options_with_correctness) if is_correct)
+        options_with_correctness = [(opt, opt == correct_answer) for opt in options]
+        random.shuffle(options_with_correctness)
         
-        return questions
-        
+        question['options'] = [opt for opt, _ in options_with_correctness]
+        question['correct'] = next(i for i, (_, is_correct) in enumerate(options_with_correctness) if is_correct)
+    return questions
+    
 class ExplanationGenerator:
     """Generates explanations for quiz answers"""
     
