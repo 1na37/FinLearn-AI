@@ -105,13 +105,16 @@ def load_custom_css():
         color: white;
         text-align: center;
         margin: 0.5rem 0;
-    }
     .calculator-box {
-        background: #f8f9fa;
+        background: #f0f2f6;
         padding: 2rem;
         border-radius: 15px;
         border-left: 5px solid #667eea;
         margin: 1rem 0;
+        color: #1f2937;
+        font-weight: 500;
+        border: 1px solid #d1d5db;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .risk-high { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important; }
     .risk-medium { background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%) !important; }
