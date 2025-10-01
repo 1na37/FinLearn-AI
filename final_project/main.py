@@ -2,7 +2,7 @@ import streamlit as st
 import time
 
 # ==============================================================================
-# 🌟 PURE PYTHON NAVIGATION TRICK 🌟
+# 🌟 PYTHON NAVIGATION TRICK 🌟
 # This function is necessary to redirect the user to a specific page
 # in a Streamlit multi-page app structure without using the sidebar.
 # It uses a Streamlit component (st.components.v1.html) to inject a tiny
