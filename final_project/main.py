@@ -88,6 +88,6 @@ Use the sidebar on the left to switch between different sections of the app:
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 2rem 0;">
-    <p>Built with Streamlit | Multipage App Example</p>
+    <p>Built with Streamlit | Multipage App</p>
 </div>
 """, unsafe_allow_html=True)
