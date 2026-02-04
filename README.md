@@ -1,3 +1,4 @@
+*Final project for AI Python Bootcamp*
 # 💰 Finance Learning Hub
 
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-FF4B4B?logo=streamlit)](https://streamlit.io/)
